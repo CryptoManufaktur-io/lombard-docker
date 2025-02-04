@@ -16,12 +16,6 @@ If you want the consensus node RPC ports exposed locally, use `rpc-shared.yml` i
 
 To update the software, run `./lombardd update` and then `./lombardd up`
 
-## Updating lombard-docker from v1.0.0
-
-Before upgrading the lombardd binary, run `./lombardd update` without changing the `LOMBARD_VERSION` env var. It will set up cosmovisor using the current binary.
-
-Once that's done, you can update `LOMBARD_VERSION` and restart the container so the new binary is compiled and added to the upgrades folder.
-
 ### CLI
 
 The Cosmovisor bin can be executed:
