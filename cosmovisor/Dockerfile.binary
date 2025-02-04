@@ -1,0 +1,47 @@
+# Get dasel
+FROM ghcr.io/tomwright/dasel:2-alpine AS dasel
+
+FROM debian:bookworm-slim
+
+ARG USER=cosmos
+ARG UID=10001
+ARG COSMOVISOR_VERSION=v1.5.0
+
+RUN apt-get update && apt-get install -y ca-certificates tzdata bash curl wget lz4 jq tar
+
+
+# See https://stackoverflow.com/a/55757473/12429735RUN
+RUN adduser \
+    --disabled-password \
+    --gecos "" \
+    --shell "/sbin/nologin" \
+    --uid "${UID}" \
+    "${USER}"
+
+RUN usermod -rG users ${USER}
+
+# Install cosmovisor
+RUN wget https://github.com/cosmos/cosmos-sdk/releases/download/cosmovisor%2F${COSMOVISOR_VERSION}/cosmovisor-${COSMOVISOR_VERSION}-linux-amd64.tar.gz
+RUN tar xf cosmovisor-${COSMOVISOR_VERSION}-linux-amd64.tar.gz
+RUN mv cosmovisor /usr/local/bin
+
+RUN mkdir -p /cosmos/cosmovisor/genesis/bin
+RUN mkdir /cosmos/cosmovisor/upgrades
+RUN mkdir /cosmos/config
+RUN mkdir /cosmos/data
+
+# Copy binaries.
+COPY --from=dasel --chown=${USER}:${USER} /usr/local/bin/dasel /usr/local/bin/
+
+# Set correct permissions.
+RUN chown -R ${USER}:${USER} /cosmos && chmod -R 700 /cosmos
+
+# Cannot assume buildkit, hence no chmod
+COPY ./docker-entrypoint.sh /usr/local/bin/
+
+# Belt and suspenders
+RUN chmod -R 755 /usr/local/bin/*
+
+USER ${USER}
+
+ENTRYPOINT ["cosmovisor"]
