@@ -96,7 +96,7 @@ compare_versions $__current_version $DAEMON_VERSION
 if [ "$__should_update" -eq 1 ]; then
   echo "Downloading new version and setting it as current"
   mkdir -p $__upgrades_path/$DAEMON_VERSION/bin
-  wget "${DOWNLOAD_BASE_URL}/ledgerd-${DAEMON_VERSION}-linux-amd64" -O mkdir -p $__upgrades_path/$DAEMON_VERSION/bin/$DAEMON_NAME
+  wget "${DOWNLOAD_BASE_URL}/ledgerd-${DAEMON_VERSION}-linux-amd64" -O $__upgrades_path/$DAEMON_VERSION/bin/$DAEMON_NAME
   chmod +x $__upgrades_path/$DAEMON_VERSION/bin/$DAEMON_NAME
   ln -s -f $__upgrades_path/$DAEMON_VERSION $__current_path
   echo "Done!"
