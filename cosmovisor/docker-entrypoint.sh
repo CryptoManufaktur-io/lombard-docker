@@ -78,84 +78,13 @@ compare_versions() {
     ver_current="${current#v}"
     ver_new="${new#v}"
 
-    # Extract major and minor from the first two dot-separated fields
-    major_current=$(echo "$ver_current" | cut -d. -f1)
-    minor_current=$(echo "$ver_current" | cut -d. -f2)
-    major_new=$(echo "$ver_new" | cut -d. -f1)
-    minor_new=$(echo "$ver_new" | cut -d. -f2)
-
-    # For the third field, we might have patch plus possible suffix
-    patch_part_current=$(echo "$ver_current" | cut -d. -f3)
-    patch_part_new=$(echo "$ver_new" | cut -d. -f3)
-
-    # Now split the patch from the suffix at the first dash
-    patch_current="${patch_part_current%%-*}"
-    suffix_current="${patch_part_current#*-}"
-    if [ "$suffix_current" = "$patch_part_current" ]; then
-        # Means there was no dash
-        suffix_current=""
+    # Check if the versions match exactly
+    if [ "$ver_current" = "$ver_new" ]; then
+        __should_update=0  # Versions are the same
+    else
+        __should_update=1  # Versions are different
     fi
-
-    patch_new="${patch_part_new%%-*}"
-    suffix_new="${patch_part_new#*-}"
-    if [ "$suffix_new" = "$patch_part_new" ]; then
-        suffix_new=""
-    fi
-
-    # Convert major/minor/patch to numbers
-    major_current=$((major_current))
-    minor_current=$((minor_current))
-    patch_current=$((patch_current))
-
-    major_new=$((major_new))
-    minor_new=$((minor_new))
-    patch_new=$((patch_new))
-
-    # Compare major/minor/patch
-    if [ "$major_new" -gt "$major_current" ]; then
-        __should_update=2
-        return
-    elif [ "$major_new" -lt "$major_current" ]; then
-        __should_update=0
-        return
-    fi
-
-    if [ "$minor_new" -gt "$minor_current" ]; then
-        __should_update=2
-        return
-    elif [ "$minor_new" -lt "$minor_current" ]; then
-        __should_update=0
-        return
-    fi
-
-    if [ "$patch_new" -gt "$patch_current" ]; then
-        __should_update=2
-        return
-    elif [ "$patch_new" -lt "$patch_current" ]; then
-        __should_update=0
-        return
-    fi
-
-    # If major/minor/patch are identical, check suffix difference
-    if [ "$suffix_current" != "$suffix_new" ]; then
-        __should_update=1
-        return
-    fi
-
-    # Otherwise, exact match
-    __should_update=0
 }
-# Upgrades overview.
-
-# Protocol Upgrades:
-# - These involve significant changes to the network, such as major or minor version releases.
-# - Stored in a dedicated directory: /cosmos/cosmovisor/{upgrade_name}.
-# - Cosmovisor automatically manages the switch based on the network's upgrade plan.
-
-# Binary Updates:
-# - These are smaller, incremental changes such as patch-level fixes.
-# - Only the binary is replaced in the existing /cosmos/cosmovisor/{upgrade_name} directory.
-# - Binary updates are applied immediately without additional actions.
 
 # First, we get the current version and compare it with the desired version.
 __current_version=$($__current_path/bin/$DAEMON_NAME version 2>&1)
@@ -164,21 +93,12 @@ echo "Current version: ${__current_version}. Desired version: ${DAEMON_VERSION}"
 
 compare_versions $__current_version $DAEMON_VERSION
 
-# __should_update=0: No update needed or versions are the same.
-# __should_update=1: Higher patch version.
-# __should_update=2: Higher minor or major version.
-if [ "$__should_update" -eq 2 ]; then
-  echo "Network upgrade..."
-  # This is a network upgrade. We'll download the binary, put it in a new folder
-  # and we'll let cosmovisor handle the upgrade just in time.
+if [ "$__should_update" -eq 1 ]; then
+  echo "Downloading new version and setting it as current"
   mkdir -p $__upgrades_path/$DAEMON_VERSION/bin
-  wget "${DOWNLOAD_BASE_URL}/ledgerd-${DAEMON_VERSION}-linux-amd64" -O $__upgrades_path/$DAEMON_VERSION/bin/$DAEMON_NAME
+  wget "${DOWNLOAD_BASE_URL}/ledgerd-${DAEMON_VERSION}-linux-amd64" -O mkdir -p $__upgrades_path/$DAEMON_VERSION/bin/$DAEMON_NAME
   chmod +x $__upgrades_path/$DAEMON_VERSION/bin/$DAEMON_NAME
-  echo "Done!"
-elif [ "$__should_update" -eq 1 ]; then
-  echo "Updating binary for current version."
-  wget "${DOWNLOAD_BASE_URL}/ledgerd-${DAEMON_VERSION}-linux-amd64" -O $__current_path/bin/$DAEMON_NAME
-  chmod +x $__current_path/bin/$DAEMON_NAME
+  ln -s -f $__upgrades_path/$DAEMON_VERSION $__current_path
   echo "Done!"
 else
   echo "No updates needed."

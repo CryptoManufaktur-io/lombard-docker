@@ -26,6 +26,30 @@ An image with the `lombardd` binary is also avilable, e.g:
 
 - `docker compose run --rm cli version`
 
+## Upgrades
+
+Upgrades are currently only via pre-distributed binaries.
+
+There is an `upgrades/` folder on which you can store the binaries. The folder is mounted on the Docker container when running `docker compose run --rm cosmovisor`.
+
+You can then add the upgrades to cosmovisor:
+
+```
+docker compose run --rm cosmovisor cosmovisor add-upgrade vx.x.x /upgrades/ledgerd-vx.x.x-linux-amd64 --upgrade-height 123456
+```
+
+or
+
+```
+docker compose run --rm cosmovisor add-batch-upgrade --upgrade-file /upgrades/upgrades.csv
+```
+
+Using a CSV file, you have to make sure the path to the binary matches the /upgrades root folder. E.g: 
+
+```csv
+v8-upgrade,/upgrades/ledgerd-vx.x.x-linux-amd64,123456
+```
+
 ## Version
 
 Lombard Docker uses a semver scheme.

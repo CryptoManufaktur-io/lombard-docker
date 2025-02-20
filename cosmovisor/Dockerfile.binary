@@ -5,7 +5,9 @@ FROM debian:bookworm-slim
 
 ARG USER=cosmos
 ARG UID=10001
-ARG COSMOVISOR_VERSION=v1.5.0
+ARG COSMOVISOR_VERSION=v1.7.1
+ARG DAEMON_VERSION=v0.1.0
+ARG DOWNLOAD_BASE_URL
 
 RUN apt-get update && apt-get install -y ca-certificates tzdata bash curl wget lz4 jq tar
 
@@ -29,6 +31,10 @@ RUN mkdir -p /cosmos/cosmovisor/genesis/bin
 RUN mkdir /cosmos/cosmovisor/upgrades
 RUN mkdir /cosmos/config
 RUN mkdir /cosmos/data
+
+# Download ledgerd for CLI use.
+RUN wget "${DOWNLOAD_BASE_URL}/ledgerd-${DAEMON_VERSION}-linux-amd64" -O /usr/local/bin/ledgerd
+RUN chmod +x /usr/local/bin/ledgerd
 
 # Copy binaries.
 COPY --from=dasel --chown=${USER}:${USER} /usr/local/bin/dasel /usr/local/bin/

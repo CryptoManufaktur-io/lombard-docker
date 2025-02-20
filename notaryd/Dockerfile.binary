@@ -5,7 +5,7 @@ FROM debian:bookworm-slim
 
 ARG USER=notaryd
 ARG UID=10002
-ARG DAEMON_VERSION=v0.0.4
+ARG DAEMON_VERSION=v0.1.0
 ARG DOWNLOAD_BASE_URL
 
 RUN apt-get update && apt-get install -y ca-certificates tzdata bash curl wget lz4 jq tar
@@ -22,7 +22,7 @@ RUN adduser \
 RUN usermod -rG users ${USER}
 
 # Download ledgerd
-RUN wget "${DOWNLOAD_BASE_URL}/ledgerd-${DAEMON_VERSION}-linux-amd64" -O $__genesis_path/bin/$DAEMON_NAME -O /usr/local/bin/ledgerd
+RUN wget "${DOWNLOAD_BASE_URL}/ledgerd-${DAEMON_VERSION}-linux-amd64" -O /usr/local/bin/ledgerd
 RUN chmod +x /usr/local/bin/ledgerd
 
 RUN mkdir -p /cosmos/config

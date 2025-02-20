@@ -14,6 +14,7 @@ services:
       args:
         - DAEMON_VERSION=${LEDGERD_VERSION}
         - USER=ledger
+        - DOWNLOAD_BASE_URL=${DOWNLOAD_BASE_URL:-}
     image: ledgerd:local
     pull_policy: never
     user: ledger
@@ -87,60 +88,6 @@ services:
         - metrics.instance=lombard
         - metrics.network=${NETWORK}
 
-  notaryd:
-    build:
-      context: ./notaryd
-      dockerfile: Dockerfile.binary
-      args:
-        - DAEMON_VERSION=${LEDGERD_VERSION}
-        - USER=notaryd
-        - DOWNLOAD_BASE_URL=${DOWNLOAD_BASE_URL:-}
-    image: notaryd:local
-    pull_policy: never
-    user: notaryd
-    restart: unless-stopped
-    stop_grace_period: 5m
-    environment:
-      - DAEMON_VERSION=${LEDGERD_VERSION}
-      - NETWORK=${NETWORK}
-      - CL_GRPC_PORT=${CL_GRPC_PORT:-9090}
-      - CL_RPC_PORT=${CL_RPC_PORT:-26657}
-      - BLACKLIST_RPC_URL=${BLACKLIST_RPC_URL:-}
-      - BLACKLIST_CONTRACT=${BLACKLIST_CONTRACT:-}
-      - BITCOIN_RPC_HOST=${BITCOIN_RPC_HOST:-}
-      - BITCOIN_DISABLE_TLS=${BITCOIN_DISABLE_TLS:-}
-      - ETH_RPC_URL=${ETH_RPC_URL:-}
-      - BSC_RPC_URL=${BSC_RPC_URL:-}
-      - BASE_RPC_URL=${BASE_RPC_URL:-}
-    <<: *logging
-    volumes:
-      - notaryd-data:/cosmos
-    entrypoint:
-      - docker-entrypoint.sh
-      - ledgerd
-      - notaryd-start
-      - --validator-addr
-      - operatoraddy
-      - --from
-      - proxy
-      - --signer
-      - signer
-      - --gas
-      - auto
-      - --gas-prices="${MIN_GAS_PRICE}"
-      - --grpc-insecure
-      - "true"
-      - --grpc-addr
-      - "ledgerd:${CL_GRPC_PORT}"
-      - --node
-      - "http://ledgerd:${CL_RPC_PORT}"
-    labels:
-        - metrics.scrape=true
-        - metrics.path=/metrics
-        - metrics.port=26660
-        - metrics.instance=lombard
-        - metrics.network=${NETWORK}
-
   cosmovisor:
     profiles: ["tools"]
     build:
@@ -149,6 +96,7 @@ services:
       args:
         - DAEMON_VERSION=${LEDGERD_VERSION}
         - USER=ledger
+        - DOWNLOAD_BASE_URL=${DOWNLOAD_BASE_URL:-}
     image: ledgerd:local
     pull_policy: never
     user: ledger
@@ -169,6 +117,7 @@ services:
       - UNSAFE_SKIP_BACKUP=true
     volumes:
       - consensus-data:/cosmos
+      - ./upgrades:/upgrades:rw
     entrypoint:
       - cosmovisor
 
@@ -180,6 +129,7 @@ services:
       args:
         - DAEMON_VERSION=${LEDGERD_VERSION}
         - USER=ledger
+        - DOWNLOAD_BASE_URL=${DOWNLOAD_BASE_URL:-}
     image: ledgerd:local
     pull_policy: never
     user: ledger
@@ -199,19 +149,22 @@ services:
       - CLIENT_START_PROCESS=false
       - UNSAFE_SKIP_BACKUP=true
     volumes:
-      - consensus-data:/cosmos
+      - ./keys/operator:/cosmos/keyring-test:rw
+      - ./keys/consensus/priv_validator_key.json:/cosmos/config/priv_validator_key.json:rw
+      - ./keys/consensus/priv_validator_state.json:/cosmos/data/priv_validator_state.json:rw
     entrypoint:
-      - /cosmos/cosmovisor/current/bin/ledgerd
+      - ledgerd
   
   create-validator-keys:
     profiles: ["tools"]
     build:
       context: ./cosmovisor
-      dockerfile: Dockerfile.source
+      dockerfile: Dockerfile.binary
       args:
         - DAEMON_VERSION=${LEDGERD_VERSION}
         - USER=ledger
-    image: ledger:local
+        - DOWNLOAD_BASE_URL=${DOWNLOAD_BASE_URL:-}
+    image: ledgerd:local
     pull_policy: never
     user: root
     volumes:
@@ -229,11 +182,12 @@ services:
     profiles: ["tools"]
     build:
       context: ./cosmovisor
-      dockerfile: Dockerfile.source
+      dockerfile: Dockerfile.binary
       args:
         - DAEMON_VERSION=${LEDGERD_VERSION}
         - USER=ledger
-    image: ledger:local
+        - DOWNLOAD_BASE_URL=${DOWNLOAD_BASE_URL:-}
+    image: ledgerd:local
     pull_policy: never
     user: root
     volumes:
@@ -253,11 +207,12 @@ services:
     profiles: ["tools"]
     build:
       context: ./cosmovisor
-      dockerfile: Dockerfile.source
+      dockerfile: Dockerfile.binary
       args:
         - DAEMON_VERSION=${LEDGERD_VERSION}
         - USER=ledger
-    image: ledger:local
+        - DOWNLOAD_BASE_URL=${DOWNLOAD_BASE_URL:-}
+    image: ledgerd:local
     pull_policy: never
     user: root
     volumes:
@@ -275,11 +230,12 @@ services:
     profiles: ["tools"]
     build:
       context: ./cosmovisor
-      dockerfile: Dockerfile.source
+      dockerfile: Dockerfile.binary
       args:
         - DAEMON_VERSION=${LEDGERD_VERSION}
         - USER=ledger
-    image: ledger:local
+        - DOWNLOAD_BASE_URL=${DOWNLOAD_BASE_URL:-}
+    image: ledgerd:local
     pull_policy: never
     user: root
     volumes:
@@ -290,18 +246,19 @@ services:
         ledgerd init $MONIKER --chain-id $NETWORK --home /cosmos > /dev/null 2>&1
         ledgerd keys add $MONIKER --keyring-backend test --home /cosmos 2>&1 | tee /tmp/temp_backup
         [ $${PIPESTATUS[0]} -eq 0 ] && sed -n '/- address/,$$p' /tmp/temp_backup > "/cosmos/keyring-test/${MONIKER}.backup" || rm /tmp/temp_backup
-        ledgerd keys show validator -a
+        ledgerd --home /cosmos --keyring-backend test keys show ${MONIKER} --bech val -a
         chown -R ledger:ledger /cosmos/keyring-test/*
   
   register-validator:
     profiles: ["tools"]
     build:
       context: ./cosmovisor
-      dockerfile: Dockerfile.source
+      dockerfile: Dockerfile.binary
       args:
         - DAEMON_VERSION=${LEDGERD_VERSION}
         - USER=ledger
-    image: ledger:local
+        - DOWNLOAD_BASE_URL=${DOWNLOAD_BASE_URL:-}
+    image: ledgerd:local
     pull_policy: never
     user: ledger
     environment:
@@ -328,7 +285,6 @@ services:
         EOF
         cat /cosmos/stake-validator.json
         ledgerd --home /cosmos tx staking create-validator /cosmos/stake-validator.json \
-        --chain-id=$NETWORK \
         --gas "auto" \
         --gas-adjustment 1.5 \
         --gas-prices "${MIN_GAS_PRICE}" \
@@ -338,4 +294,3 @@ services:
 
 volumes:
   consensus-data:
-  notaryd-data:

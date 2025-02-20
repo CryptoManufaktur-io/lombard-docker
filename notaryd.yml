@@ -1,0 +1,99 @@
+x-logging: &logging
+  logging:
+    driver: json-file
+    options:
+      max-size: 100m
+      max-file: "3"
+      tag: '{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}'
+
+services:
+  notaryd:
+    build:
+      context: ./notaryd
+      dockerfile: Dockerfile.binary
+      args:
+        - DAEMON_VERSION=${LEDGERD_VERSION}
+        - USER=notaryd
+        - DOWNLOAD_BASE_URL=${DOWNLOAD_BASE_URL:-}
+    image: notaryd:local
+    pull_policy: never
+    user: notaryd
+    restart: unless-stopped
+    stop_grace_period: 5m
+    environment:
+      - DAEMON_VERSION=${LEDGERD_VERSION}
+      - NETWORK=${NETWORK}
+      - CL_GRPC_PORT=${CL_GRPC_PORT:-9090}
+      - CL_RPC_PORT=${CL_RPC_PORT:-26657}
+      - BLACKLIST_RPC_URL=${BLACKLIST_RPC_URL:-}
+      - BLACKLIST_CONTRACT=${BLACKLIST_CONTRACT:-}
+      - BITCOIN_RPC_HOST=${BITCOIN_RPC_HOST:-}
+      - BITCOIN_DISABLE_TLS=${BITCOIN_DISABLE_TLS:-}
+      - ETH_RPC_URL=${ETH_RPC_URL:-}
+      - BSC_RPC_URL=${BSC_RPC_URL:-}
+      - BASE_RPC_URL=${BASE_RPC_URL:-}
+    <<: *logging
+    volumes:
+      - notaryd-data:/cosmos
+    entrypoint:
+      - docker-entrypoint.sh
+      - ledgerd
+      - notaryd-start
+      - --home
+      - /cosmos
+      - --validator-addr
+      - ${OPERATOR_ADDRESS}
+      - --from
+      - proxy
+      - --signer
+      - signer
+      - --gas
+      - auto
+      - --gas-prices
+      - "${MIN_GAS_PRICE}"
+      - --grpc-insecure
+      - "true"
+      - --grpc-addr
+      - "ledgerd:${CL_GRPC_PORT}"
+      - --node
+      - "http://ledgerd:${CL_RPC_PORT}"
+    labels:
+        - metrics.scrape=true
+        - metrics.path=/metrics
+        - metrics.port=26660
+        - metrics.instance=lombard
+        - metrics.network=${NETWORK}
+
+  notaryd-cli:
+    profiles: ["tools"]
+    build:
+      context: ./notaryd
+      dockerfile: Dockerfile.binary
+      args:
+        - DAEMON_VERSION=${LEDGERD_VERSION}
+        - USER=notaryd
+        - DOWNLOAD_BASE_URL=${DOWNLOAD_BASE_URL:-}
+    image: notaryd:local
+    pull_policy: never
+    user: notaryd
+    environment:
+      - DAEMON_VERSION=${LEDGERD_VERSION}
+      - NETWORK=${NETWORK}
+      - CL_GRPC_PORT=${CL_GRPC_PORT:-9090}
+      - CL_RPC_PORT=${CL_RPC_PORT:-26657}
+      - BLACKLIST_RPC_URL=${BLACKLIST_RPC_URL:-}
+      - BLACKLIST_CONTRACT=${BLACKLIST_CONTRACT:-}
+      - BITCOIN_RPC_HOST=${BITCOIN_RPC_HOST:-}
+      - BITCOIN_DISABLE_TLS=${BITCOIN_DISABLE_TLS:-}
+      - ETH_RPC_URL=${ETH_RPC_URL:-}
+      - BSC_RPC_URL=${BSC_RPC_URL:-}
+      - BASE_RPC_URL=${BASE_RPC_URL:-}
+    volumes:
+      - notaryd-data:/cosmos
+    entrypoint:
+      - ledgerd
+      - --home
+      - /cosmos
+
+volumes:
+  notaryd-data:

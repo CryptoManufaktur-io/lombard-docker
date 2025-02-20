@@ -4,3 +4,4 @@ ext-network.yml
 keys/
 custom.yml
 root.crt
+upgrades/

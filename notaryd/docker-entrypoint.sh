@@ -24,6 +24,8 @@ dasel put -f /cosmos/config/app.toml -v 1 bitcoin.pass
 dasel put -f /cosmos/config/app.toml -v mainnet bitcoin.params
 dasel put -f /cosmos/config/app.toml -v 6 bitcoin.required_confirmations
 
+dasel put -f /cosmos/config/client.toml -v $NETWORK chain-id
+
 if [ "${NETWORK}" = "ledger-mainnet-1" ]; then
   # Mainnet config.
   dasel put -f /cosmos/config/app.toml -v $ETH_RPC_URL evm.mainnet.rpc_url
