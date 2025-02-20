@@ -149,6 +149,7 @@ services:
       - CLIENT_START_PROCESS=false
       - UNSAFE_SKIP_BACKUP=true
     volumes:
+      - consensus-data:/cosmos
       - ./keys/operator:/cosmos/keyring-test:rw
       - ./keys/consensus/priv_validator_key.json:/cosmos/config/priv_validator_key.json:rw
       - ./keys/consensus/priv_validator_state.json:/cosmos/data/priv_validator_state.json:rw
