@@ -98,6 +98,7 @@ if [ "$__should_update" -eq 1 ]; then
   mkdir -p $__upgrades_path/$DAEMON_VERSION/bin
   wget "${DOWNLOAD_BASE_URL}/ledgerd-${DAEMON_VERSION}-linux-amd64" -O $__upgrades_path/$DAEMON_VERSION/bin/$DAEMON_NAME
   chmod +x $__upgrades_path/$DAEMON_VERSION/bin/$DAEMON_NAME
+  rm -f $__current_path
   ln -s -f $__upgrades_path/$DAEMON_VERSION $__current_path
   echo "Done!"
 else
