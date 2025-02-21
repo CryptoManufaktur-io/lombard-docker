@@ -14,6 +14,7 @@ fi
 
 echo "Updating config..."
 
+dasel put -f /cosmos/config/app.toml -v $SANCTIONS_URL sanctions.url
 dasel put -f /cosmos/config/app.toml -v $BLACKLIST_RPC_URL blacklist.rpc_url
 dasel put -f /cosmos/config/app.toml -v $BLACKLIST_CONTRACT blacklist.contract
 
@@ -42,6 +43,10 @@ if [ "${NETWORK}" = "ledger-mainnet-1" ]; then
   dasel put -f /cosmos/config/app.toml -v "0x2105" evm.base.chain_id
   dasel put -f /cosmos/config/app.toml -v 72 evm.base.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true evm.base.enabled
+
+  dasel put -f /cosmos/config/app.toml -v $SUI_RPC_URL sui.mainnet.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "0x35834a8a" sui.mainnet.chain_id
+  dasel put -f /cosmos/config/app.toml -v $SUI_PACKAGE_ID sui.mainnet.package_id
 else
   # Testnet config.
   dasel put -f /cosmos/config/app.toml -v $ETH_RPC_URL evm.holesky.rpc_url
@@ -58,6 +63,10 @@ else
   dasel put -f /cosmos/config/app.toml -v "0x014a34" evm.base_sepolia.chain_id
   dasel put -f /cosmos/config/app.toml -v 72 evm.base_sepolia.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true evm.base_sepolia.enabled
+
+  dasel put -f /cosmos/config/app.toml -v $SUI_RPC_URL sui.testnet.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "0x4c78adac" sui.testnet.chain_id
+  dasel put -f /cosmos/config/app.toml -v $SUI_PACKAGE_ID sui.testnet.package_id
 fi
 
 # Word splitting is desired for the command line parameters
