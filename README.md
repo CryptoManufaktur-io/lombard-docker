@@ -35,7 +35,7 @@ There is an `upgrades/` folder on which you can store the binaries. The folder i
 You can then add the upgrades to cosmovisor:
 
 ```
-docker compose run --rm cosmovisor cosmovisor add-upgrade vx.x.x /upgrades/ledgerd-vx.x.x-linux-amd64 --upgrade-height 123456
+docker compose run --rm cosmovisor add-upgrade vx.x.x /upgrades/ledgerd-vx.x.x-linux-amd64 --upgrade-height 123456
 ```
 
 Latest Cosmovisor (v1.7.1) does not work for the upgrades, `add-upgrade` and `add-batch-upgrade` will successfully create the necessary folders and upgrade-info.json files, and move the binaries. However, it will not apply the upgrades at the expected upgrade height.
