@@ -34,6 +34,8 @@ services:
       - BSC_RPC_URL=${BSC_RPC_URL:-}
       - BASE_RPC_URL=${BASE_RPC_URL:-}
       - SUI_RPC_URL=${SUI_RPC_URL:-}
+      - SONIC_RPC_URL=${SONIC_RPC_URL:-}
+      - INK_RPC_URL=${INK_RPC_URL:-}
       - SUI_PACKAGE_ID=${SUI_PACKAGE_ID:-}
     <<: *logging
     volumes:

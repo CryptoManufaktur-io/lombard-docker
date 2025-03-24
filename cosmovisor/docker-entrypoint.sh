@@ -123,7 +123,7 @@ dasel put -f /cosmos/config/app.toml -v "0.0.0.0:${RPC_PORT}" json-rpc.address
 dasel put -f /cosmos/config/app.toml -v "0.0.0.0:${WS_PORT}" json-rpc.ws-address
 dasel put -f /cosmos/config/app.toml -v "0.0.0.0:${CL_GRPC_PORT}" grpc.address
 dasel put -f /cosmos/config/app.toml -v true grpc.enable
-dasel put -f /cosmos/config/app.toml -v "tcp://0.0.0.0:${REST_API_PORT}" api.address
+dasel put -f /cosmos/config/app.toml -v "tcp://0.0.0.0:${CL_REST_PORT}" api.address
 
 dasel put -f /cosmos/config/client.toml -v "tcp://lombard:${CL_RPC_PORT}" node
 
