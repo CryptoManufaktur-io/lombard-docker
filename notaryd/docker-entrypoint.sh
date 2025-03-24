@@ -14,7 +14,7 @@ fi
 
 echo "Updating config..."
 
-dasel put -f /cosmos/config/config.toml -v true prometheus
+dasel put -f /cosmos/config/config.toml -t bool -v true instrumentation.prometheus
 
 dasel put -f /cosmos/config/app.toml -v $SANCTIONS_URL sanctions.url
 dasel put -f /cosmos/config/app.toml -v $BLACKLIST_RPC_URL blacklist.rpc_url
