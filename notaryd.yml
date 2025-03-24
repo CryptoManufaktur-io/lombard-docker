@@ -52,6 +52,8 @@ services:
       - proxy
       - --signer
       - signer
+      - --keyring-backend
+      - test
       - --gas
       - auto
       - --gas-prices
