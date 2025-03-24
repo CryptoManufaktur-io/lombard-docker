@@ -2,5 +2,7 @@
 services:
   ledgerd:
     ports:
+      - ${CL_P2P_PORT:-26656}:${CL_P2P_PORT:-26656}/tcp
+      - ${CL_REST_PORT:-1317}:${CL_REST_PORT:-1317}/tcp
       - ${RPC_PORT:-8545}:${RPC_PORT:-8545}/tcp
       - ${WS_PORT:-8546}:${WS_PORT:-8546}/tcp
