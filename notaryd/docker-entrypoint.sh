@@ -67,6 +67,16 @@ else
   dasel put -f /cosmos/config/app.toml -v $SUI_RPC_URL sui.testnet.rpc_url
   dasel put -f /cosmos/config/app.toml -v "0x4c78adac" sui.testnet.chain_id
   dasel put -f /cosmos/config/app.toml -v $SUI_PACKAGE_ID sui.testnet.package_id
+
+  dasel put -f /cosmos/config/app.toml -v $SONIC_RPC_URL evm.sonic_testnet.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "0xdede" evm.sonic_testnet.chain_id
+  dasel put -f /cosmos/config/app.toml -v 72 evm.sonic_testnet.required_confirmations
+  dasel put -f /cosmos/config/app.toml -v true evm.sonic_testnet.enabled
+
+  dasel put -f /cosmos/config/app.toml -v $INK_RPC_URL evm.ink_sepolia.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "0xba5ed" evm.ink_sepolia.chain_id
+  dasel put -f /cosmos/config/app.toml -v 1800 evm.ink_sepolia.required_confirmations
+  dasel put -f /cosmos/config/app.toml -v true evm.ink_sepolia.enabled
 fi
 
 # Word splitting is desired for the command line parameters
