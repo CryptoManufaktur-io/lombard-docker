@@ -12,7 +12,7 @@ services:
       context: ./notaryd
       dockerfile: Dockerfile.binary
       args:
-        - DAEMON_VERSION=${LEDGERD_VERSION}
+        - DAEMON_VERSION=${NOTARYD_VERSION}
         - USER=notaryd
         - DOWNLOAD_BASE_URL=${DOWNLOAD_BASE_URL:-}
     image: notaryd:local
@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
     stop_grace_period: 5m
     environment:
-      - DAEMON_VERSION=${LEDGERD_VERSION}
+      - DAEMON_VERSION=${NOTARYD_VERSION}
       - NETWORK=${NETWORK}
       - CL_GRPC_PORT=${CL_GRPC_PORT:-9090}
       - CL_RPC_PORT=${CL_RPC_PORT:-26657}
@@ -77,14 +77,14 @@ services:
       context: ./notaryd
       dockerfile: Dockerfile.binary
       args:
-        - DAEMON_VERSION=${LEDGERD_VERSION}
+        - DAEMON_VERSION=${NOTARYD_VERSION}
         - USER=notaryd
         - DOWNLOAD_BASE_URL=${DOWNLOAD_BASE_URL:-}
     image: notaryd:local
     pull_policy: never
     user: notaryd
     environment:
-      - DAEMON_VERSION=${LEDGERD_VERSION}
+      - DAEMON_VERSION=${NOTARYD_VERSION}
       - NETWORK=${NETWORK}
       - CL_GRPC_PORT=${CL_GRPC_PORT:-9090}
       - CL_RPC_PORT=${CL_RPC_PORT:-26657}
