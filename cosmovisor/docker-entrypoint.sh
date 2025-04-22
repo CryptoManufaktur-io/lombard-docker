@@ -54,9 +54,9 @@ if [[ ! -f /cosmos/.initialized ]]; then
     echo "SNAPSHOT_HASH=$SNAPSHOT_HASH"
 
     dasel put -f /cosmos/config/config.toml -v true statesync.enable
-    dasel put -f /cosmos/config/config.toml -v "${STATE_SYNC_URL},${STATE_SYNC_URL}" statesync.rpc-servers
-    dasel put -f /cosmos/config/config.toml -v $SNAPSHOT_HEIGHT statesync.trust-height
-    dasel put -f /cosmos/config/config.toml -v $SNAPSHOT_HASH statesync.trust-hash
+    dasel put -f /cosmos/config/config.toml -v "${STATE_SYNC_URL},${STATE_SYNC_URL}" statesync.rpc_servers
+    dasel put -f /cosmos/config/config.toml -v $SNAPSHOT_HEIGHT statesync.trust_height
+    dasel put -f /cosmos/config/config.toml -v $SNAPSHOT_HASH statesync.trust_hash
   else
     echo "No rapid sync url defined."
   fi
