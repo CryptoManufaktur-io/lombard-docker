@@ -42,7 +42,7 @@ if [[ ! -f /cosmos/.initialized ]]; then
   if [ -n "${STATE_SYNC_URL}" ]; then
     echo "Configuring rapid state sync"
     # Get the latest height
-    LATEST=$(curl -s "${STATE_SYNC_URL}/block" | jq -r '.block.header.height')
+    LATEST=$(curl -s "${STATE_SYNC_URL}/block" | jq -r '.result.block.header.height')
     echo "LATEST=$LATEST"
 
     # Calculate the snapshot height
