@@ -80,6 +80,13 @@ else
   dasel put -f /cosmos/config/app.toml -v 1800 evm.ink_sepolia.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true evm.ink_sepolia.enabled
 
+  dasel put -f /cosmos/config/app.toml -v $KATANA_RPC_URL evm.katana_testnet.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "0x1F977" evm.katana_testnet.chain_id
+  dasel put -f /cosmos/config/app.toml -v 3600 evm.katana_testnet.required_confirmations
+  dasel put -f /cosmos/config/app.toml -v true evm.katana_testnet.enabled
+  dasel put -f /cosmos/config/app.toml -v "0x000000000000000000000000000000000000000000000000000000000001F977" katana.chain_id
+  dasel put -f /cosmos/config/app.toml -v "0x20eA7b8ABb4B583788F1DFC738C709a2d9675681" katana.native_lbtc_address
+
   dasel put -f /cosmos/config/app.toml -v $SOLANA_RPC_URL solana.devnet.rpc_url
   dasel put -f /cosmos/config/app.toml -v "EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG" solana.devnet.genesis_hash
 fi
