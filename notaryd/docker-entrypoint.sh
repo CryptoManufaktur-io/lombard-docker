@@ -22,8 +22,8 @@ dasel put -f /cosmos/config/app.toml -v $BLACKLIST_CONTRACT blacklist.contract
 
 dasel put -f /cosmos/config/app.toml -v $BITCOIN_RPC_HOST bitcoin.host
 dasel put -f /cosmos/config/app.toml -v $BITCOIN_DISABLE_TLS bitcoin.disable_tls
-dasel put -f /cosmos/config/app.toml -v $BITCOIN_USER bitcoin.user
-dasel put -f /cosmos/config/app.toml -v $BITCOIN_PASS bitcoin.pass
+dasel put -f /cosmos/config/app.toml -v "$BITCOIN_USER" bitcoin.user
+dasel put -f /cosmos/config/app.toml -v "$BITCOIN_PASS" bitcoin.pass
 dasel put -f /cosmos/config/app.toml -v mainnet bitcoin.params
 dasel put -f /cosmos/config/app.toml -v 6 bitcoin.required_confirmations
 
