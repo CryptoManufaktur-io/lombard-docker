@@ -54,6 +54,13 @@ if [ "${NETWORK}" = "ledger-mainnet-1" ]; then
   dasel put -f /cosmos/config/app.toml -v "0x92" evm.sonic.chain_id
   dasel put -f /cosmos/config/app.toml -v 72 evm.sonic.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true evm.sonic.enabled
+
+  dasel put -f /cosmos/config/app.toml -v $KATANA_RPC_URL evm.katana.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "0xb67d2" evm.katana.chain_id
+  dasel put -f /cosmos/config/app.toml -v 3600 evm.katana.required_confirmations
+  dasel put -f /cosmos/config/app.toml -v true evm.katana.enabled
+  dasel put -f /cosmos/config/app.toml -v "0x00000000000000000000000000000000000000000000000000000000000b67d2" katana.chain_id
+  dasel put -f /cosmos/config/app.toml -v "0xB0F70C0bD6FD87dbEb7C10dC692a2a6106817072" katana.native_lbtc_address
 else
   # Testnet config.
   dasel put -f /cosmos/config/app.toml -v $ETH_RPC_URL evm.holesky.rpc_url
