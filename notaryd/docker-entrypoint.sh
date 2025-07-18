@@ -103,7 +103,7 @@ else
   dasel put -f /cosmos/config/app.toml -v "EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG" solana.devnet.genesis_hash
 
   dasel put -f /cosmos/config/app.toml -v http://ledgerd:26657 cosmos.ledger_testnet.rpc_url
-  dasel put -f /cosmos/config/app.toml -v "0x033bc7baf196ce32b8b9200518df11c35bad882fc6e3b6f45b4a8885f4c1281b" cosmos.ledger_testnet.chain_id
+  dasel put -f /cosmos/config/app.toml -v "ledger-testnet-1" cosmos.ledger_testnet.chain_id
 fi
 
 # Word splitting is desired for the command line parameters
