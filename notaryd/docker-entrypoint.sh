@@ -104,6 +104,7 @@ else
 
   dasel put -f /cosmos/config/app.toml -v http://ledgerd:26657 cosmos.ledger_testnet.rpc_url
   dasel put -f /cosmos/config/app.toml -v "ledger-testnet-1" cosmos.ledger_testnet.chain_id
+  dasel put -f /cosmos/config/app.toml -v true cosmos.ledger_testnet.enabled
 fi
 
 # Word splitting is desired for the command line parameters
