@@ -26,6 +26,7 @@ dasel put -f /cosmos/config/app.toml -v "$BITCOIN_USER" bitcoin.user
 dasel put -f /cosmos/config/app.toml -v "$BITCOIN_PASS" bitcoin.pass
 dasel put -f /cosmos/config/app.toml -v mainnet bitcoin.params
 dasel put -f /cosmos/config/app.toml -v 6 bitcoin.required_confirmations
+dasel put -f /cosmos/config/app.toml -v "10s" bitcoin.timeout
 
 dasel put -f /cosmos/config/client.toml -v $NETWORK chain-id
 
@@ -61,6 +62,11 @@ if [ "${NETWORK}" = "ledger-mainnet-1" ]; then
   dasel put -f /cosmos/config/app.toml -v true -t bool evm.katana.enabled
   dasel put -f /cosmos/config/app.toml -v "0x00000000000000000000000000000000000000000000000000000000000b67d2" katana.chain_id
   dasel put -f /cosmos/config/app.toml -v "0xB0F70C0bD6FD87dbEb7C10dC692a2a6106817072" katana.native_lbtc_address
+
+  dasel put -f /cosmos/config/app.toml -v http://ledgerd:26657 cosmos.ledger.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "ledger-mainnet-1" cosmos.ledger.chain_id
+  dasel put -f /cosmos/config/app.toml -v true -t bool cosmos.ledger.enabled
+
 else
   # Testnet config.
   dasel put -f /cosmos/config/app.toml -v $ETH_RPC_URL evm.holesky.rpc_url
