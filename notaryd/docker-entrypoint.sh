@@ -117,7 +117,7 @@ else
   dasel put -f /cosmos/config/app.toml -v 64 evm.sepolia.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true -t bool evm.sepolia.enabled
 
-  dasel put -f /cosmos/config/app.toml -v "https://starknet-sepolia.drpc.org" starknet.sepolia.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "https://starknet-sepolia.public.blastapi.io" starknet.sepolia.rpc_url
   dasel put -f /cosmos/config/app.toml -v "SN_SEPOLIA" starknet.sepolia.chain_id
   dasel put -f /cosmos/config/app.toml -v "10s" starknet.sepolia.timeout
 fi
