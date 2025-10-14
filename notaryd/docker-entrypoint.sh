@@ -120,6 +120,12 @@ else
   dasel put -f /cosmos/config/app.toml -v "https://starknet-sepolia.public.blastapi.io" starknet.sepolia.rpc_url
   dasel put -f /cosmos/config/app.toml -v "SN_SEPOLIA" starknet.sepolia.chain_id
   dasel put -f /cosmos/config/app.toml -v "10s" starknet.sepolia.timeout
+
+  dasel put -f /cosmos/config/app.toml -v "https://avalanche-fuji-c-chain-rpc.publicnode.com" evm.avalanche_fuji.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "0xa869" evm.avalanche_fuji.chain_id
+  dasel put -f /cosmos/config/app.toml -v 20 evm.avalanche_fuji.required_confirmations
+  dasel put -f /cosmos/config/app.toml -v true -t bool evm.avalanche_fuji.enabled
+
 fi
 
 # Word splitting is desired for the command line parameters
