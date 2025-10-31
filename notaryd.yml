@@ -41,6 +41,7 @@ services:
       - INK_RPC_URL=${INK_RPC_URL:-}
       - SOLANA_RPC_URL=${SOLANA_RPC_URL}
       - KATANA_RPC_URL=${KATANA_RPC_URL}
+      - AVALANCHE_RPC_URL=${AVALANCHE_RPC_URL}
 
     <<: *logging
     volumes:
@@ -105,6 +106,7 @@ services:
       - SUI_PACKAGE_ID=${SUI_PACKAGE_ID:-}
       - INK_RPC_URL=${INK_RPC_URL}
       - SOLANA_RPC_URL=${SOLANA_RPC_URL}
+      - AVALANCHE_RPC_URL=${AVALANCHE_RPC_URL}
     volumes:
       - notaryd-data:/cosmos
     entrypoint:
