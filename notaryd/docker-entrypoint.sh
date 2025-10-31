@@ -26,7 +26,8 @@ dasel put -f /cosmos/config/app.toml -v "$BITCOIN_USER" bitcoin.user
 dasel put -f /cosmos/config/app.toml -v "$BITCOIN_PASS" bitcoin.pass
 dasel put -f /cosmos/config/app.toml -v mainnet bitcoin.params
 dasel put -f /cosmos/config/app.toml -v 6 bitcoin.required_confirmations
-dasel put -f /cosmos/config/app.toml -v "10s" bitcoin.timeout
+dasel put -f /cosmos/config/app.toml -v "60s" bitcoin.timeout
+dasel put -f /cosmos/config/app.toml -v "120s" notarization_timeout
 
 dasel put -f /cosmos/config/client.toml -v $NETWORK chain-id
 
