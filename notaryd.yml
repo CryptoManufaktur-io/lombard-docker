@@ -41,6 +41,7 @@ services:
       - INK_RPC_URL=${INK_RPC_URL:-}
       - SOLANA_RPC_URL=${SOLANA_RPC_URL}
       - KATANA_RPC_URL=${KATANA_RPC_URL}
+      - AVALANCHE_RPC_URL=${AVALANCHE_RPC_URL}
 
     <<: *logging
     volumes:
