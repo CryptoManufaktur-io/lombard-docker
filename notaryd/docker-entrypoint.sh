@@ -73,6 +73,26 @@ if [ "${NETWORK}" = "ledger-mainnet-1" ]; then
   dasel put -f /cosmos/config/app.toml -v 2 evm.avalanche.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true -t bool evm.avalanche.enabled
 
+  dasel put -f /cosmos/config/app.toml -v "https://rpc.berachain.com" evm.berachain.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "0x138de" evm.berachain.chain_id
+  dasel put -f /cosmos/config/app.toml -v 2 evm.berachain.required_confirmations
+  dasel put -f /cosmos/config/app.toml -v true -t bool evm.berachain.enabled
+
+  dasel put -f /cosmos/config/app.toml -v "https://rpc.ankr.com/corn_maizenet" evm.corn.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "0x1406f40" evm.corn.chain_id
+  dasel put -f /cosmos/config/app.toml -v 1200 evm.corn.required_confirmations
+  dasel put -f /cosmos/config/app.toml -v true -t bool evm.corn.enabled
+
+  dasel put -f /cosmos/config/app.toml -v "https://rpc.ankr.com/etherlink_mainnet" evm.etherlink.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "0xa729" evm.etherlink.chain_id
+  dasel put -f /cosmos/config/app.toml -v 21 evm.etherlink.required_confirmations
+  dasel put -f /cosmos/config/app.toml -v true -t bool evm.etherlink.enabled
+
+  dasel put -f /cosmos/config/app.toml -v "https://rpc.ankr.com/tac" evm.tac.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "0xef" evm.tac.chain_id
+  dasel put -f /cosmos/config/app.toml -v 2 evm.tac.required_confirmations
+  dasel put -f /cosmos/config/app.toml -v true -t bool evm.tac.enabled
+
 else
   # Testnet config.
   dasel put -f /cosmos/config/app.toml -v $ETH_RPC_URL evm.holesky.rpc_url
