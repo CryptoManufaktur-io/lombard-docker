@@ -93,6 +93,12 @@ if [ "${NETWORK}" = "ledger-mainnet-1" ]; then
   dasel put -f /cosmos/config/app.toml -v 2 evm.tac.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true -t bool evm.tac.enabled
 
+  dasel put -f /cosmos/config/app.toml -v "$MONAD_RPC_URL" evm.monad.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "0x8f" evm.monad.chain_id
+  dasel put -f /cosmos/config/app.toml -v 3 evm.monad.required_confirmations
+  dasel put -f /cosmos/config/app.toml -v true -t bool evm.monad.enabled
+
+
 else
   # Testnet config.
   dasel put -f /cosmos/config/app.toml -v $ETH_RPC_URL evm.holesky.rpc_url
