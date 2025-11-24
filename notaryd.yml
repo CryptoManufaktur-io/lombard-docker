@@ -43,6 +43,7 @@ services:
       - KATANA_RPC_URL=${KATANA_RPC_URL}
       - AVALANCHE_RPC_URL=${AVALANCHE_RPC_URL}
       - MONAD_RPC_URL=${MONAD_RPC_URL:-}
+      - STABLE_RPC_URL=${STABLE_RPC_URL:-}
 
     <<: *logging
     volumes:
@@ -109,6 +110,7 @@ services:
       - SOLANA_RPC_URL=${SOLANA_RPC_URL}
       - AVALANCHE_RPC_URL=${AVALANCHE_RPC_URL}
       - MONAD_RPC_URL=${MONAD_RPC_URL:-}
+      - STABLE_RPC_URL=${STABLE_RPC_URL:-}
     volumes:
       - notaryd-data:/cosmos
     entrypoint:
