@@ -98,6 +98,10 @@ if [ "${NETWORK}" = "ledger-mainnet-1" ]; then
   dasel put -f /cosmos/config/app.toml -v 3 evm.monad.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true -t bool evm.monad.enabled
 
+  dasel put -f /cosmos/config/app.toml -v "$STABLE_RPC_URL" evm.stable.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "0x03dc" evm.stable.chain_id
+  dasel put -f /cosmos/config/app.toml -v 80 evm.stable.required_confirmations
+  dasel put -f /cosmos/config/app.toml -v true -t bool evm.stable.enabled
 
 else
   # Testnet config.
