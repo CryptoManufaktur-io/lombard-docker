@@ -44,6 +44,7 @@ services:
       - AVALANCHE_RPC_URL=${AVALANCHE_RPC_URL}
       - MONAD_RPC_URL=${MONAD_RPC_URL:-}
       - STABLE_RPC_URL=${STABLE_RPC_URL:-}
+      - MEGAETH_RPC_URL=${MEGAETH_RPC_URL:-}
 
     <<: *logging
     volumes:
@@ -111,6 +112,7 @@ services:
       - AVALANCHE_RPC_URL=${AVALANCHE_RPC_URL}
       - MONAD_RPC_URL=${MONAD_RPC_URL:-}
       - STABLE_RPC_URL=${STABLE_RPC_URL:-}
+      - MEGAETH_RPC_URL=${MEGAETH_RPC_URL:-}
     volumes:
       - notaryd-data:/cosmos
     entrypoint:
