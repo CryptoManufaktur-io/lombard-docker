@@ -158,7 +158,7 @@ else
   dasel put -f /cosmos/config/app.toml -v 64 evm.sepolia.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true -t bool evm.sepolia.enabled
 
-  dasel put -f /cosmos/config/app.toml -v "https://starknet-sepolia.g.alchemy.com/starknet/version/rpc/v0_10/T6-8MwmAj2Bb3NT6veXkl" starknet.sepolia.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "$STARKNET_RPC_URL" starknet.sepolia.rpc_url
   dasel put -f /cosmos/config/app.toml -v "SN_SEPOLIA" starknet.sepolia.chain_id
   dasel put -f /cosmos/config/app.toml -v "10s" starknet.sepolia.timeout
 

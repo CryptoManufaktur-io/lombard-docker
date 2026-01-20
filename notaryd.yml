@@ -45,6 +45,7 @@ services:
       - MONAD_RPC_URL=${MONAD_RPC_URL:-}
       - STABLE_RPC_URL=${STABLE_RPC_URL:-}
       - MEGAETH_RPC_URL=${MEGAETH_RPC_URL:-}
+      - STARKNET_RPC_URL=${STARKNET_RPC_URL:-}
 
     <<: *logging
     volumes:
@@ -113,6 +114,7 @@ services:
       - MONAD_RPC_URL=${MONAD_RPC_URL:-}
       - STABLE_RPC_URL=${STABLE_RPC_URL:-}
       - MEGAETH_RPC_URL=${MEGAETH_RPC_URL:-}
+      - STARKNET_RPC_URL=${STARKNET_RPC_URL:-}
     volumes:
       - notaryd-data:/cosmos
     entrypoint:
