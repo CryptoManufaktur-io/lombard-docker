@@ -78,7 +78,7 @@ if [ "${NETWORK}" = "ledger-mainnet-1" ]; then
   dasel put -f /cosmos/config/app.toml -v 2 evm.berachain.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true -t bool evm.berachain.enabled
 
-  dasel put -f /cosmos/config/app.toml -v "https://rpc.ankr.com/corn_maizenet" evm.corn.rpc_url
+  dasel put -f /cosmos/config/app.toml -v $CORN_RPC_URL evm.corn.rpc_url
   dasel put -f /cosmos/config/app.toml -v "0x1406f40" evm.corn.chain_id
   dasel put -f /cosmos/config/app.toml -v 1200 evm.corn.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true -t bool evm.corn.enabled
@@ -133,11 +133,6 @@ else
   dasel put -f /cosmos/config/app.toml -v "0xdede" evm.sonic_testnet.chain_id
   dasel put -f /cosmos/config/app.toml -v 72 evm.sonic_testnet.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true -t bool evm.sonic_testnet.enabled
-
-  dasel put -f /cosmos/config/app.toml -v $INK_RPC_URL evm.ink_sepolia.rpc_url
-  dasel put -f /cosmos/config/app.toml -v "0xba5ed" evm.ink_sepolia.chain_id
-  dasel put -f /cosmos/config/app.toml -v 1800 evm.ink_sepolia.required_confirmations
-  dasel put -f /cosmos/config/app.toml -v true -t bool evm.ink_sepolia.enabled
 
   dasel put -f /cosmos/config/app.toml -v $KATANA_RPC_URL evm.katana_testnet.rpc_url
   dasel put -f /cosmos/config/app.toml -v "0x1F977" evm.katana_testnet.chain_id
