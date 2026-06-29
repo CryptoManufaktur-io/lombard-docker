@@ -162,6 +162,8 @@ else
   dasel put -f /cosmos/config/app.toml -v 20 evm.avalanche_fuji.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true -t bool evm.avalanche_fuji.enabled
 
+  dasel delete -f /cosmos/config/app.toml evm.ink_sepolia 2>/dev/null || true
+
 fi
 
 # Word splitting is desired for the command line parameters
