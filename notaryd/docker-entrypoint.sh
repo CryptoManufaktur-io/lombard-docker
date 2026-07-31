@@ -125,9 +125,10 @@ else
   dasel put -f /cosmos/config/app.toml -v 72 evm.base_sepolia.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true -t bool evm.base_sepolia.enabled
 
-  dasel put -f /cosmos/config/app.toml -v $SUI_RPC_URL sui.testnet.rpc_url
   dasel put -f /cosmos/config/app.toml -v "0x4c78adac" sui.testnet.chain_id
-  dasel put -f /cosmos/config/app.toml -v $SUI_PACKAGE_ID sui.testnet.package_id
+  dasel put -f /cosmos/config/app.toml -v "grpc" sui.testnet.rpc_type
+  dasel put -f /cosmos/config/app.toml -v $SUI_RPC_URL sui.testnet.grpc_url
+  dasel put -f /cosmos/config/app.toml -v "0x50454d0b0fbad1288a6ab74f2e8ce0905a3317870673ab7787ebcf6f322b45fa" sui.testnet.treasury_unstake_package_id
 
   dasel put -f /cosmos/config/app.toml -v $SONIC_RPC_URL evm.sonic_testnet.rpc_url
   dasel put -f /cosmos/config/app.toml -v "0xdede" evm.sonic_testnet.chain_id
