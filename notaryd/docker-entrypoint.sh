@@ -48,9 +48,10 @@ if [ "${NETWORK}" = "ledger-mainnet-1" ]; then
   dasel put -f /cosmos/config/app.toml -v 72 evm.base.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true -t bool evm.base.enabled
 
-  dasel put -f /cosmos/config/app.toml -v $SUI_RPC_URL sui.mainnet.rpc_url
   dasel put -f /cosmos/config/app.toml -v "0x35834a8a" sui.mainnet.chain_id
-  dasel put -f /cosmos/config/app.toml -v $SUI_PACKAGE_ID sui.mainnet.package_id
+  dasel put -f /cosmos/config/app.toml -v "rpc" sui.mainnet.rpc_type
+  dasel put -f /cosmos/config/app.toml -v $SUI_RPC_URL sui.mainnet.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "0xe31c914f63d971b7a1e7c16e482e98879d0ba906f15802509b093a78485ec9b2" sui.mainnet.treasury_unstake_package_id
 
   dasel put -f /cosmos/config/app.toml -v $SONIC_RPC_URL evm.sonic.rpc_url
   dasel put -f /cosmos/config/app.toml -v "0x92" evm.sonic.chain_id
