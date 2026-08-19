@@ -112,6 +112,10 @@ if [ "${NETWORK}" = "ledger-mainnet-1" ]; then
   dasel put -f /cosmos/config/app.toml -v $SOLANA_RPC_URL solana.mainnet.rpc_url
   dasel put -f /cosmos/config/app.toml -v "5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d" solana.mainnet.genesis_hash
 
+  dasel put -f /cosmos/config/app.toml -v "$STARKNET_RPC_URL" starknet.mainnet.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "SN_MAIN" starknet.mainnet.chain_id
+  dasel put -f /cosmos/config/app.toml -v "10s" starknet.mainnet.timeout
+
 else
   # Testnet config.
   dasel put -f /cosmos/config/app.toml -v $ETH_RPC_URL evm.holesky.rpc_url
