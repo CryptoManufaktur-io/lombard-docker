@@ -49,8 +49,9 @@ if [ "${NETWORK}" = "ledger-mainnet-1" ]; then
   dasel put -f /cosmos/config/app.toml -v true -t bool evm.base.enabled
 
   dasel put -f /cosmos/config/app.toml -v "0x35834a8a" sui.mainnet.chain_id
-  dasel put -f /cosmos/config/app.toml -v "json" sui.mainnet.rpc_type
-  dasel put -f /cosmos/config/app.toml -v $SUI_RPC_URL sui.mainnet.rpc_url
+  dasel put -f /cosmos/config/app.toml -v "grpc" sui.mainnet.rpc_type
+  dasel put -f /cosmos/config/app.toml -v "$SUI_RPC_URL" sui.mainnet.grpc_url
+  dasel put -f /cosmos/config/app.toml -v "$SUI_GRPC_AUTH_TOKEN" sui.mainnet.grpc_token
   dasel put -f /cosmos/config/app.toml -v "0xe31c914f63d971b7a1e7c16e482e98879d0ba906f15802509b093a78485ec9b2" sui.mainnet.treasury_unstake_package_id
 
   dasel put -f /cosmos/config/app.toml -v $SONIC_RPC_URL evm.sonic.rpc_url
@@ -79,7 +80,6 @@ if [ "${NETWORK}" = "ledger-mainnet-1" ]; then
   dasel put -f /cosmos/config/app.toml -v 2 evm.berachain.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true -t bool evm.berachain.enabled
 
-  dasel put -f /cosmos/config/app.toml -v $CORN_RPC_URL evm.corn.rpc_url
   dasel put -f /cosmos/config/app.toml -v "0x1406f40" evm.corn.chain_id
   dasel put -f /cosmos/config/app.toml -v 1200 evm.corn.required_confirmations
   dasel put -f /cosmos/config/app.toml -v true -t bool evm.corn.enabled
